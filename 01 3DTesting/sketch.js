@@ -11,6 +11,7 @@ let cam;
 let xCam = 0;
 let yCam = 0;
 let zCam = 800;
+let zOff;
 let lookX = 0;
 let lookY = 0;
 
@@ -76,10 +77,12 @@ function draw() {
   pop();
   keyChecks();
   cam.setPosition(xCam,yCam,zCam);
-  //cam.lookAt(xCam+360*sin(lookX),yCam+360*sin(lookY),zCam-20-360*cos(lookX)-360*cos(lookY));
-  cam.lookAt(xCam+sin(lookX),yCam+sin(lookY),zCam+1+(cos(lookX)-cos(lookY)));
+  if(lookX >= -90 && lookX <= 90) zOff = 1+cos(lookX)-cos(lookY);
+  if(lookX < -90 && lookX > -180) zOff = 3-cos(lookX)-cos(lookY);
+  cam.lookAt(xCam+sin(lookX),yCam+sin(lookY),zCam+zOff);
   onScreenText(lookX,10,15);
   onScreenText(lookY,10,25);
+  onScreenText(zOff,10,35);
 }
 
 function cube_orbiting_globe() {
