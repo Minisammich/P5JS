@@ -77,8 +77,8 @@ function draw() {
   pop();
   keyChecks();
   cam.setPosition(xCam,yCam,zCam);
-  if(lookX >= -90 && lookX <= 90) zOff = 1+cos(lookX)-cos(lookY);
-  if(lookX < -90 && lookX > -180) zOff = 3-cos(lookX)-cos(lookY);
+  if((lookX > -90 && lookX < 90) || (lookX && lookX)) zOff = 1+cos(lookX)-cos(lookY);
+  if((lookX < -90 && lookX > -180) || (lookX && lookX)) zOff = 3-cos(lookX)-cos(lookY);
   cam.lookAt(xCam+sin(lookX),yCam+sin(lookY),zCam+zOff);
   onScreenText(lookX,10,15);
   onScreenText(lookY,10,25);
