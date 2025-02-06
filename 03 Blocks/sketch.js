@@ -16,7 +16,9 @@ function setup() {
 
 function draw() {
   background(220);
-  text("1 px = 1mm\n density = 1.045g/cm^2", 75, 20);
+  textAlign(LEFT, TOP);
+  text("1 px = 1mm\n\n d = 10.45kg/m^2\n ρ = 1.255kg/m^2\n Cd = 1.05", 10, 10);
+  textAlign(CENTER, CENTER);
   text(width + "mm x " + height + "mm", width/2, 20);
   for(let i = 0; i < blocks.length; i++){
     blocks[i].block_update();
