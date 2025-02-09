@@ -3,6 +3,7 @@
 // 06/02/2025 - February 6th, 2025.
 
 let blocks = [];
+let stats;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -12,16 +13,35 @@ function setup() {
   blocks.push(new Block(200, 0, 100, 100));
   blocks.push(new Block(350, 0, 150, 150));
   blocks.push(new Block(550, 0, 200, 200));
+  blocks.push(new Block(800, 0, 250, 250));
+  blocks.push(new Block(1100, 0, 300, 300));
+  blocks.push(new Block(1450, 0, 350, 350));
+
+  stats = blocks[0].get_stats();
 }
 
 function draw() {
   background(220);
+
   textAlign(LEFT, TOP);
-  text("1 px = 1mm\n\n d = 10.45kg/m^2\n ρ = 1.255kg/m^2\n Cd = 1.05", 10, 10);
+  text("1 px = 1mm\n\n d = "+stats["d"]*1E6+"kg/m^2\n ρ ="+stats["ρ"]+"kg/m^2\n Cd = " + stats["Cd"], 10, 10);
   textAlign(CENTER, CENTER);
   text(width + "mm x " + height + "mm", width/2, 20);
+
+  drawGrid();
+
   for(let i = 0; i < blocks.length; i++){
     blocks[i].block_update();
+  }
+}
+
+function drawGrid() {
+  stroke(100,100,100,100);
+  for(let i = 0; i < width; i+=10){
+    line(i, 0, i, height);
+  }
+  for(let i = 0; i < height; i+=10){
+    line(0, i, width, i);
   }
 }
 
@@ -41,7 +61,7 @@ class Block{
     this.vel_x = 0; // velocity x (mm/s)
     this.vel_y = 0; // velocity y (mm/s)
 
-    this.ρ = 1.225; // air density (kg/m^2)
+    this.ρ = 10.225; // air density (kg/m^2)
     this.Cd = 1.05; // drag coefficient
     this.terminal_velocity = 1000*(sqrt( (2*this.Fg) / (this.ρ*this.Cd *(this.w/1000)) )); // terminal velocity (mm/s)
 
@@ -51,8 +71,17 @@ class Block{
     this.enable_debug = true;
   }
 
+  get_stats() {
+    return {
+      d: this.d,
+      ρ: this.ρ,
+      Cd: this.Cd
+    }
+  }
+
   display(col){
     fill(col);
+    stroke(75);
     rect(this.x, this.y, this.w, this.h);
     if(this.enable_debug){
       fill(0);
